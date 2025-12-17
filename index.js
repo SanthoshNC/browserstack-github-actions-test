@@ -7,7 +7,7 @@ const { Builder, until } = require("selenium-webdriver");
     "bstack:options": {
       os: "Windows",
       osVersion: "11",
-      projectName: "GitHub Actions Demo",
+      projectName: "GitHub Actions BrowserStack",
       buildName: "bstackdemo.com Build",
       sessionName: "Homepage Title Validation"
     }
