@@ -2,7 +2,7 @@
   "name": "browserstack-github-actions-test",
   "version": "1.0.0",
   "scripts": {
-    "test": "node test.js"
+    "test": "node index.js"
   },
   "dependencies": {
     "selenium-webdriver": "^4.20.0"
