@@ -14,7 +14,7 @@ const capabilities = {
 };
 
 const driver = new webdriver.Builder()
-  .usingServer('https://hub-cloud.browserstack.com/wd/hub')
+  .usingServer(`https://${process.env.BROWSERSTACK_USERNAME}:${process.env.BROWSERSTACK_ACCESS_KEY}@hub-cloud.browserstack.com/wd/hub`)
   .withCapabilities(capabilities)
   .build();
 
