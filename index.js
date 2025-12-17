@@ -1,28 +1,16 @@
 const webdriver = require('selenium-webdriver');
 
-const username = process.env.BROWSERSTACK_USERNAME;
-const accessKey = process.env.BROWSERSTACK_ACCESS_KEY;
-const buildName = process.env.BROWSERSTACK_BUILD_NAME || 'BStack Build Name';
-const projectName = process.env.BROWSERSTACK_PROJECT_NAME || 'BStack Project Name';
-const localIdentifier = process.env.BROWSERSTACK_LOCAL_IDENTIFIER || 'browserstack_local_identifier';
-
-if (!username || !accessKey) {
-  console.error('Missing BrowserStack credentials in env vars');
-  process.exit(1);
-}
-
 const capabilities = {
-  os: 'Windows',
-  os_version: '10',
-  browserName: 'Chrome',
-  browser_version: '100.0',
+  'os': 'windows',
+  'os_version': '10',
+  'browserName': 'chrome',
+  'browser_version' : 'latest',
   'browserstack.local': 'true',
-  'browserstack.localIdentifier': localIdentifier,
-  seleniumVersion: '4.0.0',
-  build: buildName,
-  project: projectName,
-  'browserstack.user': username,
-  'browserstack.key': accessKey
+  'build': process.env.BROWSERSTACK_BUILD_NAME,
+  'project': process.env.BROWSERSTACK_PROJECT_NAME,
+  'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
+  'browserstack.user': process.env.BROWSERSTACK_USERNAME,
+  'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
 };
 
 const driver = new webdriver.Builder()
