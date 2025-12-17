@@ -1,16 +1,10 @@
 {
-  "name": "browserstack-local-nodejs-demo",
+  "name": "browserstack-github-actions-test",
   "version": "1.0.0",
-  "description": "Simple BrowserStack Local test with Selenium WebDriver and GitHub Actions",
-  "main": "index.js",
   "scripts": {
-    "start-server": "http-server . -p 8099",
-    "test:local-bs": "node index.js"
+    "test": "node test.js"
   },
   "dependencies": {
-    "selenium-webdriver": "^4.27.0"
-  },
-  "devDependencies": {
-    "http-server": "^14.1.1"
+    "selenium-webdriver": "^4.20.0"
   }
 }
