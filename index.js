@@ -1,26 +1,43 @@
-const webdriver = require('selenium-webdriver');
+const { Builder, until } = require("selenium-webdriver");
 
-const capabilities = {
-  'os': 'windows',
-  'os_version': '10',
-  'browserName': 'chrome',
-  'browser_version' : 'latest',
-  'browserstack.local': 'true',
-  'build': process.env.BROWSERSTACK_BUILD_NAME,
-  'project': process.env.BROWSERSTACK_PROJECT_NAME,
-  'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER,
-  'browserstack.user': process.env.BROWSERSTACK_USERNAME,
-  'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY
-};
+(async function bstackDemoTest() {
+  const capabilities = {
+    browserName: "Chrome",
+    browserVersion: "latest",
+    "bstack:options": {
+      os: "Windows",
+      osVersion: "11",
+      projectName: "GitHub Actions Demo",
+      buildName: "bstackdemo.com Build",
+      sessionName: "Homepage Title Validation"
+    }
+  };
 
-const driver = new webdriver.Builder()
-  .usingServer(`https://${process.env.BROWSERSTACK_USERNAME}:${process.env.BROWSERSTACK_ACCESS_KEY}@hub-cloud.browserstack.com/wd/hub`)
-  .withCapabilities(capabilities)
-  .build();
+  const driver = await new Builder()
+    .usingServer(
+      `https://${process.env.BROWSERSTACK_USERNAME}:${process.env.BROWSERSTACK_ACCESS_KEY}` +
+      `@hub-cloud.browserstack.com/wd/hub`
+    )
+    .withCapabilities(capabilities)
+    .build();
 
-driver.get('http://127.0.0.1:8099').then(function () {
-  driver.getTitle().then(function (title) {
-    console.log(title);
-    driver.quit();
-  });
-});
+  try {
+    await driver.get("https://bstackdemo.com/");
+
+    await driver.wait(async () => {
+      const title = await driver.getTitle();
+      return title && title.length > 0;
+    }, 10000);
+
+    const title = await driver.getTitle();
+    console.log("Page title:", title);
+
+    if (!title.toLowerCase().includes("stack")) {
+      throw new Error("Title validation failed");
+    }
+
+    console.log("✅ bstackdemo.com test passed!");
+  } finally {
+    await driver.quit();
+  }
+})();
