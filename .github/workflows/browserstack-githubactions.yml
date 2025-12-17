@@ -17,3 +17,49 @@ jobs:
         with:
           local-testing: start
           local-identifier: random
+          
+# The next steps are for building the web application to be tested and starting the web server on the runner environment
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start simple HTTP server on 8099
+        run: npx http-server . -p 8099 &
+        # or replace `.` with your app directory / build output
+
+      - name: Setup BrowserStack env
+        uses: browserstack/github-actions@master
+        with:
+          username: ${{ secrets.BROWSERSTACK_USERNAME }}
+          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          build-name: BStack Build Name
+          project-name: BStack Project Name
+
+      - name: Start BrowserStackLocal tunnel
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: start
+          local-identifier: browserstack_local_identifier
+
+      - name: Run Selenium test on BrowserStack
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          BROWSERSTACK_BUILD_NAME: BStack Build Name
+          BROWSERSTACK_PROJECT_NAME: BStack Project Name
+          BROWSERSTACK_LOCAL_IDENTIFIER: browserstack_local_identifier
+        run: node index.js
+
+      - name: Stop BrowserStackLocal tunnel
+        if: always()
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: stop
