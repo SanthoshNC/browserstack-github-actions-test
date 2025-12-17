@@ -36,7 +36,7 @@ jobs:
         # or replace `.` with your app directory / build output
 
       - name: Setup BrowserStack env
-        uses: browserstack/github-actions@master
+        uses: browserstack/github-actions/setup-env@master
         with:
           username: ${{ secrets.BROWSERSTACK_USERNAME }}
           access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
