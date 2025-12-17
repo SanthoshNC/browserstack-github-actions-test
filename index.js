@@ -18,7 +18,7 @@ const driver = new webdriver.Builder()
   .withCapabilities(capabilities)
   .build();
 
-driver.get('http://localhost:8099').then(function () {
+driver.get('http://127.0.0.1:8099').then(function () {
   driver.getTitle().then(function (title) {
     console.log(title);
     driver.quit();
