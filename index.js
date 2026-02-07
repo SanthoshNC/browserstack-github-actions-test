@@ -36,7 +36,7 @@ const { Builder, until } = require("selenium-webdriver");
       throw new Error("Title validation failed");
     }
 
-    console.log("✅ bstackdemo.com test passed!");
+    console.log("✅ bstackdemo.com test passed!!");
   } finally {
     await driver.quit();
   }
